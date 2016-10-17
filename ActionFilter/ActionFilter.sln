@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ActionFilterMVC", "ActionFilterMVC\ActionFilterMVC.csproj", "{95FFBA16-5E62-4F18-81D8-3EF80D173CD4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceJournalisation", "ServiceJournalisation\ServiceJournalisation.csproj", "{5C129462-4134-44B1-8A26-DD6E117FE3FE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{95FFBA16-5E62-4F18-81D8-3EF80D173CD4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95FFBA16-5E62-4F18-81D8-3EF80D173CD4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95FFBA16-5E62-4F18-81D8-3EF80D173CD4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95FFBA16-5E62-4F18-81D8-3EF80D173CD4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C129462-4134-44B1-8A26-DD6E117FE3FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C129462-4134-44B1-8A26-DD6E117FE3FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C129462-4134-44B1-8A26-DD6E117FE3FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C129462-4134-44B1-8A26-DD6E117FE3FE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
