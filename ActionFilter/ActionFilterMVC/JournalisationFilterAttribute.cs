@@ -3,21 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Routing;
 
 namespace ActionFilterMVC
 {
     public class JournalisationFilterAttribute : ActionFilterAttribute
     {
-
         public string Message { get; set; }
         public string ProprietesAJournaliser { get; set; }
-        public Dictionary<string, string> DictionnaireProprietes { get; private set; }
-        private void InitialiserDictionnaireProprietes(object parametreAction)
+        private Dictionary<string, string> InitialiserDictionnaireProprietes(object parametreAction)
         {
-            DictionnaireProprietes = new Dictionary<string, string>();
+
+            //Gérer le fait que le dictionnaire doit être par filterContext
+            var dictionnaireProprietes = new Dictionary<string, string>();
             if (string.IsNullOrEmpty(ProprietesAJournaliser))
             {
-                return;
+                return null;
             }
 
             var splitted = ProprietesAJournaliser.Split(',');
@@ -25,20 +26,20 @@ namespace ActionFilterMVC
             {
                 var valeur = parametreAction.GetType().GetProperty(nomPropriete).GetValue(parametreAction, null) ?? string.Empty;
 
-                DictionnaireProprietes.Add(nomPropriete, valeur.ToString());
+                dictionnaireProprietes.Add(nomPropriete, valeur.ToString());
             }
-
+            return dictionnaireProprietes;
         }
 
 
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             base.OnActionExecuting(filterContext);
-
             var parametreAction = filterContext.ActionParameters.Values.FirstOrDefault();
             if (parametreAction != null)
             {
-                InitialiserDictionnaireProprietes(parametreAction);
+                var dic = InitialiserDictionnaireProprietes(parametreAction);
+                filterContext.HttpContext.Items.Add("dic", dic);
             }
         }
 
@@ -47,9 +48,9 @@ namespace ActionFilterMVC
         {
             base.OnActionExecuted(filterContext);
 
-            Message = ReplaceValues(filterContext, Message);
+            var message = ReplaceValues(filterContext, Message);
 
-            Journal.Instance.Log(Message);
+            Journal.Instance.Log(message);
         }
 
         private string ReplaceValues(ActionExecutedContext filterContext, string message)
@@ -59,11 +60,12 @@ namespace ActionFilterMVC
                 var number = filterContext.RequestContext.RouteData.Values["number"].ToString();
                 message = message.Replace("{number}", number);
             }
-            if (DictionnaireProprietes != null && DictionnaireProprietes.Any())
+            var dic = filterContext.HttpContext.Items["dic"] as Dictionary<string, string>;
+            if (dic!= null && dic.Any())
             {
-                foreach (string nomPropriete in DictionnaireProprietes.Keys)
+                foreach (string nomPropriete in dic.Keys)
                 {
-                    message = message.Replace("{" + nomPropriete + "}", DictionnaireProprietes[nomPropriete]);
+                    message = message.Replace("{" + nomPropriete + "}", dic[nomPropriete]);
                 }
             }
 
